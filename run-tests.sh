@@ -15,7 +15,7 @@ info() {
 }
 
 wait_for_sonarqube() {
-    local image=$1 i web_up
+    local image=$1 i web_up=no sonarqube_up=no
 
     for ((i = 0; i < 10; i++)); do
         info "$image: waiting for web server to start ..."
@@ -31,12 +31,13 @@ wait_for_sonarqube() {
     for ((i = 0; i < 10; i++)); do
         info "$image: waiting for sonarqube to be ready ..."
         if curl -s localhost:$port/api/system/status | grep '"status":"UP"'; then
-            return
+            sonarqube_up=yes
+            break
         fi
         sleep 3
     done
 
-    return 1
+    [ "$sonarqube_up" = yes ]
 }
 
 sanity_check_image() {
