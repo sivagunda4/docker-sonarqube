@@ -55,7 +55,16 @@ sanity_check_image() {
     docker container stop "$id"
 }
 
-for image in [67]*-community; do
+if [ $# = 0 ]; then
+    set -- [67].*-community
+fi
+
+for image; do
+    image=${image%/}
+    if ! [ -d "$image" ]; then
+        warn "not a valid image, directory does not exist: $image"
+        continue
+    fi
     name=sqtest:$image
     docker build -t "$name" -f "$image/Dockerfile" "$PWD/$image"
     sanity_check_image "$name"
