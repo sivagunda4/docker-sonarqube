@@ -34,7 +34,7 @@ wait_for_sonarqube() {
             sonarqube_up=yes
             break
         fi
-        sleep 3
+        sleep 5
     done
 
     [ "$sonarqube_up" = yes ]
