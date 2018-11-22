@@ -16,7 +16,6 @@ declare -a sq_opts
 
 while IFS='=' read -r envvar_key envvar_value
 do
-    echo "$envvar_key=$envvar_value" >> $log
     if [[ "$envvar_key" =~ sonar.* ]]; then
         sq_opts+=("-D${envvar_key}=${envvar_value}")
     fi
